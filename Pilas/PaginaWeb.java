@@ -21,10 +21,7 @@ public class PaginaWeb {
         return horaAcceso;
     }
 
-    @Override
     public String toString() {
-        return "Titulo: " + titulo +
-               " | URL: " + url +
-               " | Hora Acceso: " + horaAcceso;
+        return "Titulo: " + titulo + " | URL: " + url + " | Hora Acceso: " + horaAcceso;
     }
 }

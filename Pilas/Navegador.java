@@ -7,45 +7,44 @@ public class Navegador {
         historial = new Stack<>();
     }
 
-    public void visitarPagina(String url, String titulo, int horaAcceso) {
+    public Stack<PaginaWeb> visitarPagina(String url, String titulo, int horaAcceso) {
         PaginaWeb nueva = new PaginaWeb(url, titulo, horaAcceso);
         historial.push(nueva);
-        System.out.println("Pagina agregada correctamente");
+        return historial;
     }
 
-    public void retroceder() {
-        if (historial.isEmpty()) {
-            System.out.println("No hay paginas para retroceder");
-            return;
+    public Stack<PaginaWeb> retroceder() {
+        if (!historial.isEmpty()) {
+            historial.pop();
         }
-
-        historial.pop();
-
-        if (historial.isEmpty()) {
-            System.out.println("No hay pagina actual");
-        } else {
-            System.out.println("Ahora estás en: " + historial.peek().getTitulo());
-        }
+        return historial;   
     }
 
-    public void mostrarHistorial() {
+    // Método para obtener el historial recorriendo con auxiliar
+    public String obtenerHistorial() {
         if (historial.isEmpty()) {
-            System.out.println("Historial vacio");
-            return;
+            return "Historial vacio";
         }
-
-        System.out.println("--- HISTORIAL ---");
-        for (PaginaWeb p : historial) {
-            System.out.println(p);
+        String resultado = "";
+        Stack<PaginaWeb> aux = new Stack<>();
+        while (!historial.isEmpty()) {
+            PaginaWeb p = historial.pop();
+            resultado += p.toString() + "\n";
+            aux.push(p);
         }
+        while (!aux.isEmpty()) {
+            historial.push(aux.pop());
+        }
+        return resultado;
     }
 
-    public void paginaActual() {
-        if (historial.isEmpty()) {
-            System.out.println("No hay pagina actual");
-        } else {
-            System.out.println("Pagina actual:");
-            System.out.println(historial.peek());
-        }
+    // Métodos de estado
+    public boolean estaVacia() {
+        return historial.isEmpty();
+    }
+
+    // Método para obtener la pila completa para el recorrido auxiliar en Main
+    public Stack<PaginaWeb> getHistorial() {
+        return historial;
     }
 }
