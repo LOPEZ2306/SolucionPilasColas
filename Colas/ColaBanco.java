@@ -1,79 +1,110 @@
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ColaBanco {
     private Queue<Cliente> filaEspera;
-    private List<Cliente> clientesAtendidos;
+    private Queue<Cliente> clientesAtendidos;
     private int contadorTurnos;
 
     public ColaBanco() {
         this.filaEspera = new LinkedList<>();
-        this.clientesAtendidos = new ArrayList<>();
+        this.clientesAtendidos = new LinkedList<>();
         this.contadorTurnos = 1;
     }
 
-    // 1. Llegada de un cliente
-    public void encolar(String nombre, String tipoServicio, int horaLlegada) {
+    // Llegada de un cliente
+    public Queue<Cliente> encolar(String nombre, String tipoServicio, int horaLlegada) {
         Cliente nuevoCliente = new Cliente(contadorTurnos++, nombre, tipoServicio, horaLlegada);
         filaEspera.offer(nuevoCliente);
-        System.out.println("Cliente encolado: " + nuevoCliente.getNombre() + " con Turno #" + nuevoCliente.getId());
+        return filaEspera;
     }
 
-    // 2. Atender cliente
-    public void desencolar() {
+    // Atender cliente
+    public Cliente desencolar() {
         if (filaEspera.isEmpty()) {
-            System.out.println("No hay clientes en la fila.");
-            return;
+            return null;
         }
         Cliente atendido = filaEspera.poll();
         atendido.setAtendido(true);
-        clientesAtendidos.add(atendido);
-        System.out.println("Atendiendo a: " + atendido.getNombre() + " (Turno #" + atendido.getId() + ")");
+        clientesAtendidos.offer(atendido);
+        return atendido;
     }
 
-    // 3. Ver siguiente cliente (peek)
-    public void verSiguiente() {
-        if (filaEspera.isEmpty()) {
-            System.out.println("No hay clientes en espera.");
-            return;
-        }
-        System.out.println("Siguiente cliente en ser atendido: " + filaEspera.peek());
+    // Ver siguiente cliente (peek)
+    public Cliente verSiguiente() {
+        return filaEspera.peek();
     }
 
-    // 4. Ver cola actual
-    public void verColaActual() {
+    // Métodos para obtener el texto recorriendo con auxiliares
+    public String obtenerColaActual() {
         if (filaEspera.isEmpty()) {
-            System.out.println("La fila está vacia.");
-            return;
+            return "La fila esta vacia";
         }
-        System.out.println("Clientes en espera: ");
-        for (Cliente c : filaEspera) {
-            System.out.println(c);
+        String resultado = "";
+        Queue<Cliente> aux = new LinkedList<>();
+        while (!filaEspera.isEmpty()) {
+            Cliente c = filaEspera.poll();
+            resultado += c.toString() + "\n";
+            aux.offer(c);
         }
+        while (!aux.isEmpty()) {
+            filaEspera.offer(aux.poll());
+        }
+        return resultado;
     }
 
-    // 5. Mostrar Turnos (Atendidos y Pendientes)
-    public void mostrarTurnos() {
-        System.out.println("Registro de turnos: ");
-        
-        System.out.println("Pendientes: ");
+    public String obtenerPendientes() {
         if (filaEspera.isEmpty()) {
-            System.out.println("Sin turnos pendientes.");
-        } else {
-            for (Cliente c : filaEspera) {
-                System.out.println(c);
-            }
+            return "Sin turnos pendientes";
         }
+        String resultado = "";
+        Queue<Cliente> aux = new LinkedList<>();
+        while (!filaEspera.isEmpty()) {
+            Cliente c = filaEspera.poll();
+            resultado += c.toString() + "\n";
+            aux.offer(c);
+        }
+        while (!aux.isEmpty()) {
+            filaEspera.offer(aux.poll());
+        }
+        return resultado;
+    }
 
-        System.out.println("Atendidos: ");
+    public String obtenerAtendidos() {
         if (clientesAtendidos.isEmpty()) {
-            System.out.println("Aun no se ha atendido a nadie.");
-        } else {
-            for (Cliente c : clientesAtendidos) {
-                System.out.println(c);
-            }
+            return "Aun no se ha atendido a nadie";
         }
+        String resultado = "";
+        Queue<Cliente> aux = new LinkedList<>();
+        while (!clientesAtendidos.isEmpty()) {
+            Cliente c = clientesAtendidos.poll();
+            resultado += c.toString() + "\n";
+            aux.offer(c);
+        }
+        while (!aux.isEmpty()) {
+            clientesAtendidos.offer(aux.poll());
+        }
+        return resultado;
+    }
+
+    // Métodos de estado (retornan booleans o números)
+    public boolean estaVacia() {
+        return filaEspera.isEmpty();
+    }
+
+    public boolean atendidosEstaVacia() {
+        return clientesAtendidos.isEmpty();
+    }
+
+    public int cantidadPendientes() {
+        return filaEspera.size();
+    }
+
+    public Queue<Cliente> getFilaEspera() {
+        return filaEspera;
+    }
+
+    public Queue<Cliente> getClientesAtendidos() {
+        return clientesAtendidos;
     }
 }
