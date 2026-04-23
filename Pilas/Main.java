@@ -29,23 +29,30 @@ public class Main {
                     System.out.print("Ingrese titulo: ");
                     String titulo = sc.nextLine();
 
-                    System.out.print("Ingrese hora de acceso (número entero): ");
+                    System.out.print("Ingrese hora de acceso (numero entero): ");
                     int hora = sc.nextInt();
                     sc.nextLine();
 
                     nav.visitarPagina(url, titulo, hora);
+                    System.out.println("Pagina agregada correctamente");
                     break;
 
                 case 2:
                     nav.retroceder();
+                    System.out.println("Se ha retrocedido en el historial");
                     break;
 
                 case 3:
-                    nav.paginaActual();
+                    if (nav.estaVacia()) {
+                        System.out.println("No hay pagina actual");
+                    } else {
+                        System.out.println("Pagina actual: " + nav.getHistorial().peek().toString());
+                    }
                     break;
 
                 case 4:
-                    nav.mostrarHistorial();
+                    System.out.println("Historial");
+                    System.out.println(nav.obtenerHistorial());
                     break;
 
                 case 5:
