@@ -48,7 +48,7 @@ public class ColaBanco {
             System.out.println("La fila está vacia.");
             return;
         }
-        System.out.println("\nClientes en espera: ");
+        System.out.println("Clientes en espera: ");
         for (Cliente c : filaEspera) {
             System.out.println(c);
         }

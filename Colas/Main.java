@@ -7,10 +7,10 @@ public class Main {
         int opcion;
 
         do {
-            System.out.println("\n===== GESTIÓN DE TURNOS - BANCO =====");
-            System.out.println("1. Llegada de un cliente (Encolar)");
-            System.out.println("2. Atender cliente (Desencolar)");
-            System.out.println("3. Ver siguiente cliente (Peek)");
+            System.out.println("GESTIÓN DE TURNOS - BANCO");
+            System.out.println("1. Llegada de un cliente");
+            System.out.println("2. Atender cliente");
+            System.out.println("3. Ver siguiente cliente");
             System.out.println("4. Ver cola actual");
             System.out.println("5. Mostrar todos los turnos");
             System.out.println("6. Salir");
@@ -33,7 +33,7 @@ public class Main {
                     try {
                         hora = Integer.parseInt(sc.nextLine());
                     } catch (NumberFormatException e) {
-                        hora = 0; // Default or error handling
+                        hora = 0;
                     }
                     banco.encolar(nombre, servicio, hora);
                     break;
