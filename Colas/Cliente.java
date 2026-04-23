@@ -25,10 +25,14 @@ public class Cliente {
         this.atendido = atendido;
     }
 
-    @Override
     public String toString() {
-        String estado = atendido ? "[Atendido]" : "[En espera]";
-        return String.format("Turno #%d | %-15s | Servicio: %-15s | Hora Llegada: %d | %s", 
-                id, nombre, tipoServicio, horaLlegada, estado);
+        String estado;
+        if (atendido) {
+            estado = "Atendido";
+        } else {
+            estado = "En espera";
+        }
+        
+        return "Turno #" + id + " | " + nombre + " | Servicio: " + tipoServicio + " | Hora Llegada: " + horaLlegada + " | " + estado;
     }
 }
