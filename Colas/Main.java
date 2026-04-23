@@ -7,7 +7,7 @@ public class Main {
         int opcion;
 
         do {
-            System.out.println("GESTIÓN DE TURNOS - BANCO");
+            System.out.println("Gestion de turnos Banco");
             System.out.println("1. Llegada de un cliente");
             System.out.println("2. Atender cliente");
             System.out.println("3. Ver siguiente cliente");
@@ -26,9 +26,9 @@ public class Main {
                 case 1:
                     System.out.print("Nombre del cliente: ");
                     String nombre = sc.nextLine();
-                    System.out.print("Tipo de servicio (retiro/consignación/asesoría): ");
+                    System.out.print("Tipo de servicio (retiro/consignacion/asesorias): ");
                     String servicio = sc.nextLine();
-                    System.out.print("Hora de llegada (número entero): ");
+                    System.out.print("Hora de llegada (numero entero): ");
                     int hora;
                     try {
                         hora = Integer.parseInt(sc.nextLine());
@@ -36,30 +36,48 @@ public class Main {
                         hora = 0;
                     }
                     banco.encolar(nombre, servicio, hora);
+                    System.out.println("Cliente agregado a la fila.");
                     break;
 
                 case 2:
-                    banco.desencolar();
+                    Cliente atendido = banco.desencolar();
+                    if (atendido == null) {
+                        System.out.println("No hay clientes para atender");
+                    } else {
+                        System.out.println("Atendiendo a: " + atendido.getNombre() + " (Turno #" + atendido.getId() + ")");
+                    }
                     break;
 
                 case 3:
-                    banco.verSiguiente();
+                    Cliente siguiente = banco.verSiguiente();
+                    if (siguiente == null) {
+                        System.out.println("No hay nadie en espera");
+                    } else {
+                        System.out.println("El siguiente es: " + siguiente.toString());
+                    }
                     break;
 
                 case 4:
-                    banco.verColaActual();
+                    System.out.println("Clientes en espera");
+                    System.out.println(banco.obtenerColaActual());
                     break;
 
                 case 5:
-                    banco.mostrarTurnos();
+                    System.out.println("Registro de turnos");
+                    
+                    System.out.println("Pendientes");
+                    System.out.println(banco.obtenerPendientes());
+
+                    System.out.println("Atendidos");
+                    System.out.println(banco.obtenerAtendidos());
                     break;
 
                 case 6:
-                    System.out.println("Saliendo del sistema...");
+                    System.out.println("Saliendo del sistema");
                     break;
 
                 default:
-                    System.out.println("Opción no válida. Intente de nuevo.");
+                    System.out.println("Opcion no valida. Intente de nuevo.");
             }
 
         } while (opcion != 6);
